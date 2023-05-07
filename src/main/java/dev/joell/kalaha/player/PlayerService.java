@@ -16,19 +16,20 @@ public class PlayerService {
     }
 
     public PlayerDto create(CreatePlayerDto player) {
+        // repository.save doesn't return the full entity, so we have to do a second query
         PlayerEntity entity = this.repository.save(new PlayerEntity(player.name()));
-        return new PlayerDto(entity.getId(), entity.getName());
+        return this.findById(entity.getId());
     }
 
     public PlayerDto findById(int id) {
         PlayerEntity entity = this.repository.findById(id).orElseThrow();
-        return new PlayerDto(entity.getId(), entity.getName());
+        return new PlayerDto(entity.getId(), entity.getName(), entity.getCreatedAt());
     }
 
     public List<PlayerDto> findAll() {
         return this.repository.findAll()
             .stream()
-            .map(entity -> new PlayerDto(entity.getId(), entity.getName()))
+            .map(entity -> new PlayerDto(entity.getId(), entity.getName(), entity.getCreatedAt()))
             .toList();
     }
 }

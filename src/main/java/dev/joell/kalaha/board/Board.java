@@ -4,10 +4,10 @@ public class Board {
     /** Array containing the board state. Tracks the amount of stones per location (including stores). */
     private final int[] board;
 
-    /** Index of the player 1 store in the board. */
+    /** Index of the player A store in the board. */
     private final int idxPlayerAStore;
 
-    /** Index of the player 2 store in the board. */
+    /** Index of the player B store in the board. */
     private final int idxPlayerBStore;
 
     /** The amount of cups per player. */
@@ -15,6 +15,9 @@ public class Board {
 
     /** The amount of stones per cup. */
     private final int stonesPerCup;
+
+    /** The index of the current player. */
+    private int idxCurrentPlayer;
 
     public Board(int cupsPerPlayer, int stonesPerCup) {
         this.cupsPerPlayer = cupsPerPlayer;
@@ -33,6 +36,75 @@ public class Board {
                 this.board[i] = this.stonesPerCup;
             }
         }
+
+        // TODO: initialize?
+        this.idxCurrentPlayer = this.idxPlayerAStore;
+    }
+
+    public void makeMove(int cup) {
+        // TODO: make custom exceptions such they can be caught and handled by the controller
+        if (cup < 1 || cup > this.cupsPerPlayer) {
+            throw new IllegalArgumentException("Invalid cup index, must be between 1 and " + this.cupsPerPlayer + " inclusive.");
+        }
+
+        // Calculate the index of the cup in the board array. As we store player B's cups in reverse order, when B
+        // picks a cup, we actually need to subtract the cup index from the total amount of cups per player.
+        int idx = this.idxCurrentPlayer == this.idxPlayerAStore 
+            ? cup 
+            : this.board.length - cup;
+
+        int numStones = this.board[idx];
+        if (numStones == 0) {
+            throw new IllegalArgumentException("Invalid cup index, cup is empty.");
+        }
+
+        // "pick up" the stones from the cup
+        System.out.println(String.format("Player %s picking %s stones at cup %s (index %s)", this.idxCurrentPlayer == this.idxPlayerAStore ? "A" : "B", numStones, cup, idx));
+        this.board[idx] = 0;
+        while (numStones > 0) {
+            // Rules state counter clockwise direction, so we decrement the index
+            idx--;
+            // Wrap around to the start of player B cup
+            if (idx < 0) {
+                idx = this.board.length - 1;
+            }
+
+            // Skip the opponent's store
+            if (idx == this.idxPlayerBStore && this.idxCurrentPlayer == this.idxPlayerAStore) {
+                idx--;
+            } else if (idx == this.idxPlayerAStore && this.idxCurrentPlayer == this.idxPlayerBStore) {
+                idx--;
+            }
+
+            // Place a stone in the cup (or current player's store)
+            System.out.println(String.format("Placing stone at index %s", idx));
+            this.board[idx]++;
+            numStones--;
+        }
+
+        if ((idx == this.idxPlayerAStore && this.idxCurrentPlayer == this.idxPlayerAStore) || 
+            (idx == this.idxPlayerBStore && this.idxCurrentPlayer == this.idxPlayerBStore)) {
+            // Player turn ends in their store, so they get to go again
+            System.out.println("Player gets to go again!");
+            return;
+        }
+
+        if (this.board[idx] == 1 && idx != this.idxPlayerAStore && idx != this.idxPlayerBStore) {
+            System.out.println("Player steals stones!");
+            // Player turn ends in an empty cup on their side, so they get to take the stones from the opposite cup
+            int oppositeIdx = this.board.length - idx;
+            int oppositeStones = this.board[oppositeIdx];
+            System.out.println(String.format("Opposite index is %s, stones %s", oppositeIdx, oppositeStones));
+
+            this.board[this.idxCurrentPlayer] += oppositeStones + 1;
+            this.board[oppositeIdx] = 0;
+            this.board[idx] = 0;
+            System.out.println(this.idxCurrentPlayer);
+        }
+
+        // Switch players
+        System.out.println("Switching players!");
+        this.idxCurrentPlayer = this.idxCurrentPlayer == this.idxPlayerAStore ? this.idxPlayerBStore : this.idxPlayerAStore;
     }
 
     /**

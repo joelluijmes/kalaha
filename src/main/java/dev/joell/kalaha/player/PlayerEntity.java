@@ -2,11 +2,14 @@ package dev.joell.kalaha.player;
 
 import java.time.LocalDateTime;
 
+import javax.annotation.processing.Generated;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "players")
@@ -15,6 +18,7 @@ public class PlayerEntity {
     @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
     private int id;
 
+    @NotNull
     private String name;
 
     // TODO: Figure out how to use @CreatedDate?
@@ -29,15 +33,19 @@ public class PlayerEntity {
     }
 
     public int getId() {
-        return id;
+        return this.id;
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public LocalDateTime getCreatedAt() {
         return this.createdAt;
     }
-    
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
 }

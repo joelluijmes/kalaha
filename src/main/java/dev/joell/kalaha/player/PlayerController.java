@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import dev.joell.kalaha.common.exceptions.ApiException;
 import dev.joell.kalaha.player.dtos.*;
 
 @RestController
@@ -27,7 +28,7 @@ public class PlayerController {
     }
 
     @PostMapping
-    public PlayerDto createPlayer(@Validated @RequestBody CreatePlayerDto player) {
+    public PlayerDto createPlayer(@Validated @RequestBody CreatePlayerDto player) throws ApiException {
         return this.service.create(player);
     }
 }

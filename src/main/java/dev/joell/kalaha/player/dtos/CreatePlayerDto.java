@@ -1,8 +1,8 @@
 package dev.joell.kalaha.player.dtos;
 
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 
 public record CreatePlayerDto(
-    @NotNull(message = "Name may not be null")
+    @NotBlank(message = "name is missing")
     String name
 ) { }

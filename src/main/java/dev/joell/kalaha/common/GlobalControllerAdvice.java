@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import dev.joell.kalaha.common.exceptions.ApiException;
+
 @ResponseBody
 @ControllerAdvice
 public class GlobalControllerAdvice {
@@ -25,5 +27,11 @@ public class GlobalControllerAdvice {
             errors.put(fieldName, errorMessage);
         });
         return errors;
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(ApiException.class)
+    public Map<String, String> handleValidationExceptions(ApiException ex) {
+        return Map.of("error", ex.getMessage());
     }
 }

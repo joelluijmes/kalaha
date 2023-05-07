@@ -2,8 +2,6 @@ package dev.joell.kalaha.player;
 
 import java.time.LocalDateTime;
 
-import javax.annotation.processing.Generated;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -19,6 +17,7 @@ public class PlayerEntity {
     private int id;
 
     @NotNull
+    @Column(unique = true)
     private String name;
 
     // TODO: Figure out how to use @CreatedDate?

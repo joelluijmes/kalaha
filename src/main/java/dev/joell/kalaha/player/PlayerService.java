@@ -1,9 +1,11 @@
 package dev.joell.kalaha.player;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import dev.joell.kalaha.common.exceptions.ApiException;
 import dev.joell.kalaha.player.dtos.*;
 
 
@@ -18,10 +20,14 @@ public class PlayerService {
         this.mapper = mapper;
     }
 
-    public PlayerDto create(CreatePlayerDto player) {
-        PlayerEntity entity = this.repository.saveAndFlush(mapper.createDtoToEntity(player));
-        
+    public PlayerDto create(CreatePlayerDto player) throws ApiException {
+        Optional<PlayerEntity> existingPlayer = this.repository.findByName(player.name());
+        if (existingPlayer.isPresent()) {
+            throw new ApiException("Player with name " + player.name() + " already exists");
+        }
+
         // TODO: how to force read query such that createdAt field is populated? Current behavior is that it is null.
+        PlayerEntity entity = this.repository.save(mapper.createDtoToEntity(player));
         return this.findById(entity.getId());
     }
 

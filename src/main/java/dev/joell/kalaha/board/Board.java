@@ -77,7 +77,7 @@ public class Board {
 
         // Draw the cup row for player B
         sb.append("|     ");
-        for (int i = this.idxPlayerBStore + 1; i < this.board.length; i++) {
+        for (int i = this.board.length - 1; i > this.idxPlayerBStore; i--) {
             sb.append(String.format("| %2d  ", this.board[i]));
         }
         sb.append("      |\n");
@@ -133,7 +133,7 @@ public class Board {
 
         // Draw the cup row for player B
         sb.append("|     ");
-        for (int i = this.idxPlayerBStore + 1; i < this.board.length; i++) {
+        for (int i = this.board.length - 1; i > this.idxPlayerBStore; i--) {
             sb.append(String.format("| %2d  ", i));
         }
         sb.append("      |\n");

@@ -1,5 +1,7 @@
 package dev.joell.kalaha.board;
 
+import dev.joell.kalaha.common.mapstruct.Default;
+
 public class Board {
     /** Array containing the board state. Tracks the amount of stones per location (including stores). */
     private final int[] board;
@@ -39,6 +41,16 @@ public class Board {
 
         // TODO: initialize?
         this.idxCurrentPlayer = this.idxPlayerAStore;
+    }
+
+    @Default
+    public Board(int[] board, int idxPlayerAStore, int idxPlayerBStore, int cupsPerPlayer, int stonesPerCup, int idxCurrentPlayer) {
+        this.board = board;
+        this.idxPlayerAStore = idxPlayerAStore;
+        this.idxPlayerBStore = idxPlayerBStore;
+        this.cupsPerPlayer = cupsPerPlayer;
+        this.stonesPerCup = stonesPerCup;
+        this.idxCurrentPlayer = idxCurrentPlayer;
     }
 
     public void makeMove(int cup) {
@@ -218,4 +230,30 @@ public class Board {
 
         return sb.toString();
     }
+
+    public int[] getBoard() {
+        return board;
+    }
+
+    public int getIdxPlayerAStore() {
+        return idxPlayerAStore;
+    }
+
+    public int getIdxPlayerBStore() {
+        return idxPlayerBStore;
+    }
+
+    public int getCupsPerPlayer() {
+        return cupsPerPlayer;
+    }
+
+    public int getStonesPerCup() {
+        return stonesPerCup;
+    }
+
+    public int getIdxCurrentPlayer() {
+        return idxCurrentPlayer;
+    }
+
+
 }

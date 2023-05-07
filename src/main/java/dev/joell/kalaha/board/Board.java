@@ -20,6 +20,9 @@ public class Board {
         this.cupsPerPlayer = cupsPerPlayer;
         this.stonesPerCup = stonesPerCup;
 
+        // The player stores index at the start of their respective board array. 
+        // Player A starts at 0, and its cups are 1 -> cupsPerPlayer.
+        // Player B starts at cupsPerPlayer + 1, and its cups are cupsPerPlayer + 2 -> cupsPerPlayer * 2 + 1.
         this.idxPlayerAStore = 0;
         this.idxPlayerBStore = this.cupsPerPlayer + 1;
 
@@ -76,6 +79,62 @@ public class Board {
         sb.append("|     ");
         for (int i = this.idxPlayerBStore + 1; i < this.board.length; i++) {
             sb.append(String.format("| %2d  ", this.board[i]));
+        }
+        sb.append("      |\n");
+        
+        // Draw the separator line
+        for (int i = 0; i < len + 1; i++) {
+            sb.append("+-----");
+        }
+        sb.append("+\n");
+
+        return sb.toString();
+    }
+
+    /**
+     * Print the indexes of the board for debugging purposes.
+     */
+    public String debugBoardIndexString() {
+        StringBuilder sb = new StringBuilder();
+
+        int len = this.board.length / 2;
+
+        // Draw the index row, which indicates the index of each cup for player A
+        sb.append("   A  ");
+        for (int i = 1; i < len; i++) {
+            sb.append(String.format("   %s  ", i));
+        }
+        sb.append("   B  \n");
+        
+        // Draw separator line
+        for (int i = 0; i <= len; i++) {
+            sb.append("+-----");
+        }
+        sb.append("+\n");
+        
+        // Draw the cup row for player A
+        sb.append("|      ");
+        for (int i = 1; i < len; i++) {
+            sb.append(String.format(" %2d  |", i));
+        }
+        sb.append("     |\n");
+        
+        // Draw the store value for player A
+        sb.append(String.format("| %2d  ", this.idxPlayerAStore));
+
+        // Draw the separator line between the two cup rows
+        for (int i = 0; i < len - 1; i++) {
+            sb.append("+-----");
+        }
+        
+        // Draw the store value for player B
+        sb.append(String.format("+ %2d  ", this.idxPlayerBStore));
+        sb.append("+\n");
+
+        // Draw the cup row for player B
+        sb.append("|     ");
+        for (int i = this.idxPlayerBStore + 1; i < this.board.length; i++) {
+            sb.append(String.format("| %2d  ", i));
         }
         sb.append("      |\n");
         

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import dev.joell.kalaha.board.Board;
+import dev.joell.kalaha.common.exceptions.ApiException;
 import dev.joell.kalaha.game.dto.*;
 import jakarta.transaction.Transactional;
 
@@ -46,12 +47,15 @@ public class GameService {
         return this.findById(entity.getId());
     }
 
-    public GameDto performMove(int id, int cup) {
+    public GameDto performMove(int id, int cup) throws ApiException {
         GameEntity entity = this.repository.findById(id).orElseThrow();
-        System.out.println(entity.getIdxCurrentPlayer());
         Board board = this.mapper.entityToBoard(entity);
-        System.out.println(board.getIdxCurrentPlayer());
-        board.makeMove(cup);
+
+        try {
+            board.makeMove(cup);
+        } catch (Exception e) {
+            throw new ApiException(e.getMessage());
+        }
 
         GameEntity updatedEntity = this.mapper.boardToEntity(board);
         updatedEntity.setId(id);

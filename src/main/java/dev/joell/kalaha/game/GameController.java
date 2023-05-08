@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import dev.joell.kalaha.common.exceptions.ApiException;
 import dev.joell.kalaha.game.dto.*;
 import io.swagger.v3.oas.annotations.Operation;
 
@@ -62,7 +63,7 @@ public class GameController {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "The updated game"),
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "Game with the given id not found")
     })
-    public GameDto performMove(@PathVariable int id, @PathVariable int cup) {
+    public GameDto performMove(@PathVariable int id, @PathVariable int cup) throws ApiException {
         return this.service.performMove(id, cup);
     }
 }

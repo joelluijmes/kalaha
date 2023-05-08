@@ -3,8 +3,10 @@ package dev.joell.kalaha.player;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import dev.joell.kalaha.Auth.JwtUtils;
 import dev.joell.kalaha.common.exceptions.ApiException;
 import dev.joell.kalaha.player.dtos.*;
 

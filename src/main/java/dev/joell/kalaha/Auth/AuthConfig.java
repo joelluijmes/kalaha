@@ -1,4 +1,4 @@
-package dev.joell.kalaha.common;
+package dev.joell.kalaha.Auth;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,7 +14,7 @@ public class AuthConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         // Disable all checks (for now)
         http.authorizeHttpRequests()
-                .requestMatchers("/**")
+                .requestMatchers("/api/players")
                 .permitAll();
 
         // Disable CSRF to allow POST requests from curl

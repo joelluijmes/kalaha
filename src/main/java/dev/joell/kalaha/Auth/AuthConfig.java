@@ -14,7 +14,7 @@ public class AuthConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         // Disable all checks (for now)
         http.authorizeHttpRequests()
-                .requestMatchers("/api/players")
+                .requestMatchers("/**")
                 .permitAll();
 
         // Disable CSRF to allow POST requests from curl

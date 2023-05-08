@@ -35,6 +35,18 @@ public record GameState(
     }
 
     /**
+     * Check if the given board index (global) refers to store of the opponent
+     * player.
+     */
+    public boolean isIndexAtOpponentStore(int idx) {
+        if (playerA == currentPlayer) {
+            return playerB.store() == board.get(idx);
+        } else {
+            return playerA.store() == board.get(idx);
+        }
+    }
+
+    /**
      * Format the board as a pretty human readable string.
      */
     public String toString() {

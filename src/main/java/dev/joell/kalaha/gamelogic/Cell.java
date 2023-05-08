@@ -1,5 +1,9 @@
 package dev.joell.kalaha.gamelogic;
 
+/**
+ * Represents a cell on the board. A cell can either be a store or a cup. Note,
+ * this is a mutable object, such that stones can be added or removed.
+ */
 class Cell {
     private final boolean isStore;
     private int numStones;

@@ -1,5 +1,9 @@
 package dev.joell.kalaha.gamelogic;
 
+/**
+ * Represents the state of a player. The player has a number of cups and a
+ * store. The passed in cells must refer to the same cells in the board array.
+ */
 public record PlayerState(Cell[] cups, Cell store, String name) {
     public PlayerState {
         if (cups.length < 1) {

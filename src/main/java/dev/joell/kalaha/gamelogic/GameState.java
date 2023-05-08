@@ -1,5 +1,9 @@
 package dev.joell.kalaha.gamelogic;
 
+/**
+ * Represents the state of the game. The game state contains the
+ * board state, the player states, and the current player.
+ */
 public record GameState(
         Cell[] board,
         PlayerState playerA,

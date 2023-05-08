@@ -16,7 +16,7 @@ release:
   needs: ["docker"]
 
   script:
-    - helm upgrade --install kalaha infra/helm --set image="${IMAGE}:${IMAGE_TAG}"
+    - helm upgrade --install kalaha infra/helm --set image="${IMAGE}:${IMAGE_TAG}" -n kalaha
 
   only:
     - main

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import dev.joell.kalaha.common.exceptions.ApiException;
+import dev.joell.kalaha.common.exceptions.NotFoundApiException;
 
 @ResponseBody
 @ControllerAdvice
@@ -27,6 +28,12 @@ public class GlobalControllerAdvice {
             errors.put(fieldName, errorMessage);
         });
         return errors;
+    }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(NotFoundApiException.class)
+    public Map<String, String> handleValidationExceptions(NotFoundApiException ex) {
+        return Map.of("error", ex.getMessage());
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)

@@ -36,7 +36,7 @@ public class GameController {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "The game with the given id"),
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "Game with the given id not found")
     })
-    public GameDto getGame(@PathVariable int id) {
+    public GameDto getGame(@PathVariable int id) throws ApiException {
         return this.service.findById(id);
     }
 
@@ -45,7 +45,7 @@ public class GameController {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "The game with the given id"),
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "Game with the given id not found")
     })
-    public String getGamePretty(@PathVariable int id) {
+    public String getGamePretty(@PathVariable int id) throws ApiException {
         return this.service.getPrettyFormattedForId(id);
     }
 
@@ -54,7 +54,7 @@ public class GameController {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "The created game"),
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "Invalid request body")
     })
-    public GameDto createGame(@Validated @RequestBody CreateGameDto game) {
+    public GameDto createGame(@Validated @RequestBody CreateGameDto game) throws ApiException {
         return this.service.create(game);
     }
 

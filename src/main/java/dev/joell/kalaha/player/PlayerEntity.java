@@ -18,7 +18,10 @@ public class PlayerEntity {
 
     @NotNull
     @Column(unique = true)
-    private String name;
+    private String username;
+
+    @NotNull
+    private String passwordHash;
 
     // TODO: Figure out how to use @CreatedDate?
     @Column(name = "created_at", nullable = false, insertable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
@@ -28,23 +31,30 @@ public class PlayerEntity {
     }
 
     public PlayerEntity(String name) {
-        this.name = name;
+        this.username = name;
     }
 
     public int getId() {
         return this.id;
     }
 
-    public String getName() {
-        return this.name;
+    public String getUsername() {
+        return this.username;
     }
 
     public LocalDateTime getCreatedAt() {
         return this.createdAt;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUsername(String name) {
+        this.username = name;
     }
 
+    public String getPasswordHash() {
+        return passwordHash;
+    }
+
+    public void setPasswordHash(String hash) {
+        this.passwordHash = hash;
+    }
 }

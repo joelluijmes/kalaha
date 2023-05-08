@@ -18,6 +18,8 @@ public class GameService {
     public GameService(GameRepository repository, GameMapper mapper) {
         this.repository = repository;
         this.mapper = mapper;
+
+        new org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder().encode("null");
     }
 
     public GameDto findById(int id) {

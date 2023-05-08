@@ -20,9 +20,9 @@ public class PlayerService {
     }
 
     public PlayerDto create(CreatePlayerDto player) throws ApiException {
-        Optional<PlayerEntity> existingPlayer = this.repository.findByName(player.name());
+        Optional<PlayerEntity> existingPlayer = this.repository.findByUsername(player.username());
         if (existingPlayer.isPresent()) {
-            throw new ApiException("Player with name " + player.name() + " already exists");
+            throw new ApiException("Player with name " + player.username() + " already exists");
         }
 
         // TODO: how to force read query such that createdAt field is populated? Current

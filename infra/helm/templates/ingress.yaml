@@ -1,0 +1,17 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: kalaha
+  namespace: kalaha
+  labels:
+    name: kalaha
+spec:
+  routes:
+    - kind: Rule
+      match: Host(`kalaha.joell.dev`)
+      services:
+        - name: kalaha
+          port: 8080
+
+  tls:
+    certResolver: default

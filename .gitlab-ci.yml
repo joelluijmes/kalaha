@@ -1,0 +1,22 @@
+before_script:
+  - export DOCKER_REGISTRY=$(([[ -n $DOCKER_REGISTRY ]] && echo $DOCKER_REGISTRY) || echo "docker.joell.dev")
+  - export IMAGE_TAG="jdk17-${CI_COMMIT_SHORT_SHA}"
+  - export IMAGE="${DOCKER_REGISTRY}/kalaha"
+
+docker:
+  script:
+    - docker build . -t ${IMAGE}:${IMAGE_TAG} -t ${IMAGE}:latest -f infra/Dockerfile
+    - docker push ${IMAGE}:${IMAGE_TAG}
+    - docker push ${IMAGE}:latest
+
+  only:
+    - main
+
+release:
+  needs: ["docker"]
+
+  script:
+    - helm upgrade --install kalaha infra/helm --set image="${IMAGE}:${IMAGE_TAG}"
+
+  only:
+    - main

@@ -54,4 +54,83 @@ public class GameLogic {
         return new GameState(board, playerA, playerB, currentPlayer);
     }
 
+    public GameState move(GameState state, int cup) {
+        // TODO: does GameState as immutable make sense? Tracking current player is bit
+        // awkward.
+
+        if (cup < 1 || cup > state.currentPlayer().cups().length) {
+            throw new IllegalArgumentException(
+                    "Cup index must be between 1 and " + state.currentPlayer().cups().length);
+        }
+
+        if (state.isGameOver()) {
+            throw new IllegalStateException("Game is over");
+        }
+
+        // Player cup arrays are 0-indexed, but the cup index is 1-indexed
+        // Alternative: use the idxBoard, but this illustrates the semantics better
+        int numStones = state.currentPlayer().cups()[cup - 1].numStones();
+        if (numStones == 0) {
+            throw new IllegalArgumentException("Cannot move from cup with no stones");
+        }
+
+        // Calculate the index of the cup in the board array. The board array acts
+        // like a circular array such that we can easily iterate over the board.
+        // However, the cup is given from the perspective of the current player.
+        // This means, when the current player is player B, the cup is reversed.
+        int idxBoard = state.currentPlayer() == state.playerA() ? cup : state.board().length - cup;
+
+        // Pickup the stones from the current cup.
+        // As long we have stones, keep iterating and dropping in the following cups
+        // (except the opponent's store).
+        Cell currentCell = state.board()[idxBoard];
+        currentCell.removeStones(numStones);
+        while (numStones > 0) {
+            // Rules state we work counter-clockwise, so we need to decrement the index
+            --idxBoard;
+
+            // Wrap around to the end of the board
+            if (idxBoard < 0) {
+                idxBoard = state.board().length - 1;
+            }
+
+            // Skip the opponent's store
+            if (state.isIndexAtOpponentStore(idxBoard)) {
+                continue;
+            }
+
+            // Drop a stone in the cup
+            currentCell = state.board()[idxBoard];
+            currentCell.addStones(1);
+            --numStones;
+        }
+
+        // Check if the last stone was dropped in the current player's store
+        if (currentCell == state.currentPlayer().store()) {
+            // If so, the current player gets another turn
+            return state;
+        }
+
+        // Check if the last stone was dropped in an empty cup. This is checked
+        // after the last stone drop, so we actually check for 1.
+        if (currentCell.numStones() == 1) {
+            // If so, the current player gets to capture the stones in the opposite cup
+            // and add it to the store.
+
+            // Calculate the index of the opposite cup (the board is circular)
+            int idxOppositeCup = state.board().length - idxBoard;
+            Cell oppositeCup = state.board()[idxOppositeCup];
+
+            // Clear the opposite cup and add the stones to the current player's store
+            int numOppositeStones = oppositeCup.numStones();
+            oppositeCup.removeStones(numOppositeStones);
+            currentCell.removeStones(1); // Don't forget to remove the stone that was just dropped
+
+            state.currentPlayer().store().addStones(numOppositeStones + 1);
+        }
+
+        // Switch the current player
+        PlayerState nextPlayer = state.currentPlayer() == state.playerA() ? state.playerB() : state.playerA();
+        return new GameState(state.board(), state.playerA(), state.playerB(), nextPlayer);
+    }
 }

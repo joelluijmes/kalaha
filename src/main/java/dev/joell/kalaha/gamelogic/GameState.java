@@ -1,7 +1,9 @@
 package dev.joell.kalaha.gamelogic;
 
+import java.util.List;
+
 public record GameState(
-        Cell[] board,
+        List<Cell> board,
         PlayerState playerA,
         PlayerState playerB,
         PlayerState currentPlayer) {
@@ -39,7 +41,7 @@ public record GameState(
         StringBuilder sb = new StringBuilder();
         sb.append(String.format("Current player: %s\n\n", currentPlayer.name()));
 
-        int len = board.length / 2;
+        int len = board.size() / 2;
 
         // Draw the index row, which indicates the index of each cup for player A
         sb.append("   A  ");

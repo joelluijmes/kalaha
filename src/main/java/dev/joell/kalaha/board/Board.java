@@ -25,6 +25,13 @@ public class Board {
     private int idxCurrentPlayer;
 
     public Board(int cupsPerPlayer, int stonesPerCup) {
+        if (cupsPerPlayer < 1) {
+            throw new IllegalArgumentException("Invalid cups per player, must be greater than 0.");
+        }
+        if (stonesPerCup < 1) {
+            throw new IllegalArgumentException("Invalid stones per cup, must be greater than 0.");
+        }
+
         this.cupsPerPlayer = cupsPerPlayer;
         this.stonesPerCup = stonesPerCup;
 
@@ -80,8 +87,6 @@ public class Board {
         }
 
         // "pick up" the stones from the cup
-        System.out.println(String.format("Player %s picking %s stones at cup %s (index %s)",
-                this.idxCurrentPlayer == this.idxPlayerAStore ? "A" : "B", numStones, cup, idx));
         this.board[idx] = 0;
         while (numStones > 0) {
             // Rules state counter clockwise direction, so we decrement the index
@@ -99,7 +104,6 @@ public class Board {
             }
 
             // Place a stone in the cup (or current player's store)
-            System.out.println(String.format("Placing stone at index %s", idx));
             this.board[idx]++;
             numStones--;
         }
@@ -107,26 +111,21 @@ public class Board {
         if ((idx == this.idxPlayerAStore && this.idxCurrentPlayer == this.idxPlayerAStore) ||
                 (idx == this.idxPlayerBStore && this.idxCurrentPlayer == this.idxPlayerBStore)) {
             // Player turn ends in their store, so they get to go again
-            System.out.println("Player gets to go again!");
             return;
         }
 
         if (this.board[idx] == 1 && idx != this.idxPlayerAStore && idx != this.idxPlayerBStore) {
-            System.out.println("Player steals stones!");
             // Player turn ends in an empty cup on their side, so they get to take the
             // stones from the opposite cup
             int oppositeIdx = this.board.length - idx;
             int oppositeStones = this.board[oppositeIdx];
-            System.out.println(String.format("Opposite index is %s, stones %s", oppositeIdx, oppositeStones));
 
             this.board[this.idxCurrentPlayer] += oppositeStones + 1;
             this.board[oppositeIdx] = 0;
             this.board[idx] = 0;
-            System.out.println(this.idxCurrentPlayer);
         }
 
         // Switch players
-        System.out.println("Switching players!");
         this.idxCurrentPlayer = this.idxCurrentPlayer == this.idxPlayerAStore ? this.idxPlayerBStore
                 : this.idxPlayerAStore;
     }
@@ -265,6 +264,10 @@ public class Board {
 
     public int getIdxCurrentPlayer() {
         return idxCurrentPlayer;
+    }
+
+    public String currentPlayer() {
+        return this.idxCurrentPlayer == this.idxPlayerAStore ? "A" : "B";
     }
 
 }

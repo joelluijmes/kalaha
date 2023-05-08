@@ -35,7 +35,11 @@ By default it uses a in memory database, which is not persisted between restarts
 ./gradlew bootRun
 ```
 
-### Example interaction
+## Interacting with the API
+
+> Note, the commands below assume you run the application on `localhost:8080`. However, for demo purposes, the
+> application is deployed to my private Kubernetes cluster. You can interact with the API at:
+> https://kalaha.joell.dev/
 
 The following is an example interaction with the API using `curl`. The API is documented using Swagger, which can be
 accessed at `/swagger-ui.html`.

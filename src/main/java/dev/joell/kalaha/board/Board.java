@@ -73,6 +73,10 @@ public class Board {
                     "Invalid cup index, must be between 1 and " + this.cupsPerPlayer + " inclusive.");
         }
 
+        if (this.isGameOver()) {
+            throw new IllegalStateException("Game is over, cannot make a move.");
+        }
+
         // Calculate the index of the cup in the board array. As we store player B's
         // cups in reverse order, when B
         // picks a cup, we actually need to subtract the cup index from the total amount
@@ -270,4 +274,27 @@ public class Board {
         return this.idxCurrentPlayer == this.idxPlayerAStore ? "A" : "B";
     }
 
+    public boolean isGameOver() {
+        // Game is over when either player's cups are empty
+        boolean playerAEmpty = true;
+        boolean playerBEmpty = true;
+
+        // Check if player A contains any stones
+        for (int i = this.idxPlayerAStore + 1; i <= this.cupsPerPlayer; i++) {
+            if (this.board[i] != 0) {
+                playerAEmpty = false;
+                break;
+            }
+        }
+
+        // Check if player B contains any stones
+        for (int i = this.idxPlayerBStore + 1; i < this.board.length; i++) {
+            if (this.board[i] != 0) {
+                playerBEmpty = false;
+                break;
+            }
+        }
+
+        return playerAEmpty || playerBEmpty;
+    }
 }

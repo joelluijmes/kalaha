@@ -3,6 +3,7 @@ package dev.joell.kalaha.board;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
 
@@ -27,7 +28,7 @@ public class MakeMoveTests {
     @ValueSource(ints = { 0, 7, 100 })
     public void raisesOnEmptyCup(int cup) {
         Board board = new Board(
-                new int[] { 0, 0, 0, 0, 0, 0, 0, 0 },
+                new int[] { 1, 0, 4, 4, 4, 4, 4, 0, 4, 4, 4, 5, 5, 5 },
                 0,
                 7,
                 6,
@@ -188,5 +189,78 @@ public class MakeMoveTests {
                 Arrays.toString(board.getBoard()));
         // Still player B's turn
         assertEquals("B", board.currentPlayer());
+    }
+
+    @Test
+    public void checkIsGameOverPlayerA() {
+        Board board = new Board(
+                new int[] { 1, 0, 0, 0, 0, 0, 0, 1, 5, 5, 5, 6, 0, 5 },
+                0,
+                7,
+                6,
+                4,
+                7);
+
+        // Visual representation of the board state
+        String expected = "" +
+                "   A     1     2     3     4     5     6     B  \n" +
+                "+-----+-----+-----+-----+-----+-----+-----+-----+\n" +
+                "|        0  |  0  |  0  |  0  |  0  |  0  |     |\n" +
+                "|  1  +-----+-----+-----+-----+-----+-----+  1  +\n" +
+                "|     |  5  |  0  |  6  |  5  |  5  |  5        |\n" +
+                "+-----+-----+-----+-----+-----+-----+-----+-----+\n";
+
+        assertEquals(expected, board.asciiFormatString());
+        assertTrue(board.isGameOver());
+    }
+
+    @Test
+    public void checkIsGameOverPlayerB() {
+        Board board = new Board(
+                new int[] { 1, 5, 5, 5, 6, 0, 5, 1, 0, 0, 0, 0, 0, 0, },
+                0,
+                7,
+                6,
+                4,
+                7);
+
+        // Visual representation of the board state
+        String expected = "" +
+                "   A     1     2     3     4     5     6     B  \n" +
+                "+-----+-----+-----+-----+-----+-----+-----+-----+\n" +
+                "|        5  |  5  |  5  |  6  |  0  |  5  |     |\n" +
+                "|  1  +-----+-----+-----+-----+-----+-----+  1  +\n" +
+                "|     |  0  |  0  |  0  |  0  |  0  |  0        |\n" +
+                "+-----+-----+-----+-----+-----+-----+-----+-----+\n";
+
+        assertEquals(expected, board.asciiFormatString());
+        assertTrue(board.isGameOver());
+    }
+
+    @Test
+    public void moveRaisesWhenGameOver() {
+        Board board = new Board(
+                new int[] { 1, 0, 0, 0, 0, 0, 0, 1, 5, 5, 5, 6, 0, 5 },
+                0,
+                7,
+                6,
+                4,
+                7);
+
+        // Visual representation of the board state
+        String expected = "" +
+                "   A     1     2     3     4     5     6     B  \n" +
+                "+-----+-----+-----+-----+-----+-----+-----+-----+\n" +
+                "|        0  |  0  |  0  |  0  |  0  |  0  |     |\n" +
+                "|  1  +-----+-----+-----+-----+-----+-----+  1  +\n" +
+                "|     |  5  |  0  |  6  |  5  |  5  |  5        |\n" +
+                "+-----+-----+-----+-----+-----+-----+-----+-----+\n";
+
+        assertEquals(expected, board.asciiFormatString());
+
+        Exception exc = assertThrows(IllegalStateException.class, () -> {
+            board.makeMove(1);
+        });
+        assertEquals("Game is over, cannot make a move.", exc.getMessage());
     }
 }

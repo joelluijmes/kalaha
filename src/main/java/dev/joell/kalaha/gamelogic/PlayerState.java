@@ -1,10 +1,8 @@
 package dev.joell.kalaha.gamelogic;
 
-import java.util.List;
-
-public record PlayerState(List<Cell> cups, Cell store, String name) {
+public record PlayerState(Cell[] cups, Cell store, String name) {
     public PlayerState {
-        if (cups.size() < 1) {
+        if (cups.length < 1) {
             throw new IllegalArgumentException("Invalid number of cups, must be greater than 0.");
         }
         if (store == null) {

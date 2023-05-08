@@ -38,9 +38,9 @@ public record GameState(
      */
     public boolean isIndexAtOpponentStore(int idx) {
         if (playerA == currentPlayer) {
-            return playerB.store() == board.get(idx);
+            return playerB.store() == board[idx];
         } else {
-            return playerA.store() == board.get(idx);
+            return playerA.store() == board[idx];
         }
     }
 

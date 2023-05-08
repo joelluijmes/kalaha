@@ -1,7 +1,7 @@
 package dev.joell.kalaha.gamelogic;
 
 public record GameSettings(int cupsPerPlayer, int stonesPerCup) {
-    static GameSettings DEFAULT = new GameSettings(6, 4);
+    public static GameSettings DEFAULT = new GameSettings(6, 4);
 
     public GameSettings {
         if (cupsPerPlayer < 1) {

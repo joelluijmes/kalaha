@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import dev.joell.kalaha.common.exceptions.ApiException;
 import dev.joell.kalaha.player.dtos.*;
+import io.swagger.v3.oas.annotations.Operation;
 
 @RestController
 @RequestMapping("/api/players")
@@ -23,11 +24,27 @@ public class PlayerController {
     }
 
     @GetMapping
+    @Operation(summary = "Get all players", responses = {
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(
+            responseCode = "200",
+            description = "List of all players"
+        )
+    })
     public List<PlayerDto> getPlayers() {
         return this.service.findAll();
     }
 
     @PostMapping
+    @Operation(summary = "Create a new player", responses = {
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(
+            responseCode = "200",
+            description = "The created player"
+        ),
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(
+            responseCode = "400",
+            description = "Invalid request body"
+        )
+    })
     public PlayerDto createPlayer(@Validated @RequestBody CreatePlayerDto player) throws ApiException {
         return this.service.create(player);
     }

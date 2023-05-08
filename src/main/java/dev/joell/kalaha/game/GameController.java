@@ -24,10 +24,7 @@ public class GameController {
 
     @GetMapping
     @Operation(summary = "Get all games", responses = {
-        @io.swagger.v3.oas.annotations.responses.ApiResponse(
-            responseCode = "200",
-            description = "List of all games"
-        )
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "List of all games")
     })
     public List<GameDto> getGames() {
         return this.service.findAll();
@@ -35,14 +32,8 @@ public class GameController {
 
     @GetMapping("/{id}")
     @Operation(summary = "Get a game by id", description = "Returns the game state as json, for pretty formatted output see /{id}/pretty", responses = {
-        @io.swagger.v3.oas.annotations.responses.ApiResponse(
-            responseCode = "200",
-            description = "The game with the given id"
-        ),
-        @io.swagger.v3.oas.annotations.responses.ApiResponse(
-            responseCode = "404",
-            description = "Game with the given id not found"
-        )
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "The game with the given id"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "Game with the given id not found")
     })
     public GameDto getGame(@PathVariable int id) {
         return this.service.findById(id);
@@ -50,14 +41,8 @@ public class GameController {
 
     @GetMapping("/{id}/pretty")
     @Operation(summary = "Get a game by id", description = "Returns the game state as a pretty formatted string, for JSON see /{id}", responses = {
-        @io.swagger.v3.oas.annotations.responses.ApiResponse(
-            responseCode = "200",
-            description = "The game with the given id"
-        ),
-        @io.swagger.v3.oas.annotations.responses.ApiResponse(
-            responseCode = "404",
-            description = "Game with the given id not found"
-        )
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "The game with the given id"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "Game with the given id not found")
     })
     public String getGamePretty(@PathVariable int id) {
         return this.service.getPrettyFormattedForId(id);
@@ -65,14 +50,8 @@ public class GameController {
 
     @PostMapping
     @Operation(summary = "Create a new game", responses = {
-        @io.swagger.v3.oas.annotations.responses.ApiResponse(
-            responseCode = "200",
-            description = "The created game"
-        ),
-        @io.swagger.v3.oas.annotations.responses.ApiResponse(
-            responseCode = "400",
-            description = "Invalid request body"
-        )
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "The created game"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "Invalid request body")
     })
     public GameDto createGame(@Validated @RequestBody CreateGameDto game) {
         return this.service.create(game);
@@ -80,14 +59,8 @@ public class GameController {
 
     @PostMapping("/{id}/move/{cup}")
     @Operation(summary = "Perform a move", description = "Performs a move for the given game id and cup", responses = {
-        @io.swagger.v3.oas.annotations.responses.ApiResponse(
-            responseCode = "200",
-            description = "The updated game"
-        ),
-        @io.swagger.v3.oas.annotations.responses.ApiResponse(
-            responseCode = "404",
-            description = "Game with the given id not found"
-        )
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "The updated game"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "Game with the given id not found")
     })
     public GameDto performMove(@PathVariable int id, @PathVariable int cup) {
         return this.service.performMove(id, cup);

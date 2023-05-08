@@ -1,6 +1,5 @@
 package dev.joell.kalaha.game;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -23,8 +22,7 @@ public class GameService {
 
     public GameDto findById(int id) {
         return this.mapper.entityToDto(
-            this.repository.findById(id).orElseThrow()
-        );
+                this.repository.findById(id).orElseThrow());
     }
 
     public String getPrettyFormattedForId(int id) {
@@ -34,15 +32,14 @@ public class GameService {
 
     public List<GameDto> findAll() {
         return this.repository.findAll().stream()
-            .map(this.mapper::entityToDto)
-            .toList();
+                .map(this.mapper::entityToDto)
+                .toList();
     }
 
     public GameDto create(CreateGameDto game) {
         Board board = new Board(game.cupsPerPlayer(), game.stonesPerCup());
         GameEntity entity = this.repository.save(
-            this.mapper.boardToEntity(board)
-        );
+                this.mapper.boardToEntity(board));
 
         return this.findById(entity.getId());
     }
@@ -59,7 +56,7 @@ public class GameService {
 
         this.repository.save(updatedEntity);
 
-        return this.findById(id); 
+        return this.findById(id);
     }
 
     private Board findBoardById(int id) {

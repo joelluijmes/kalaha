@@ -25,10 +25,7 @@ public class PlayerController {
 
     @GetMapping
     @Operation(summary = "Get all players", responses = {
-        @io.swagger.v3.oas.annotations.responses.ApiResponse(
-            responseCode = "200",
-            description = "List of all players"
-        )
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "List of all players")
     })
     public List<PlayerDto> getPlayers() {
         return this.service.findAll();
@@ -36,14 +33,8 @@ public class PlayerController {
 
     @PostMapping
     @Operation(summary = "Create a new player", responses = {
-        @io.swagger.v3.oas.annotations.responses.ApiResponse(
-            responseCode = "200",
-            description = "The created player"
-        ),
-        @io.swagger.v3.oas.annotations.responses.ApiResponse(
-            responseCode = "400",
-            description = "Invalid request body"
-        )
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "The created player"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "Invalid request body")
     })
     public PlayerDto createPlayer(@Validated @RequestBody CreatePlayerDto player) throws ApiException {
         return this.service.create(player);

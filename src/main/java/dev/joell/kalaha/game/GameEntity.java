@@ -15,7 +15,10 @@ public class GameEntity {
     @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
     private int id;
 
-    /** Array containing the board state. Tracks the amount of stones per location (including stores). */
+    /**
+     * Array containing the board state. Tracks the amount of stones per location
+     * (including stores).
+     */
     @Column(nullable = false)
     private int[] board;
 
@@ -34,12 +37,12 @@ public class GameEntity {
     /** The index of the current player. */
     private int idxCurrentPlayer;
 
-
     public GameEntity() {
 
     }
 
-    public GameEntity(int id, int[] board, int idxPlayerAStore, int idxPlayerBStore, int cupsPerPlayer, int stonesPerCup, int idxCurrentPlayer) {
+    public GameEntity(int id, int[] board, int idxPlayerAStore, int idxPlayerBStore, int cupsPerPlayer,
+            int stonesPerCup, int idxCurrentPlayer) {
         this.id = id;
         this.board = board;
         this.idxPlayerAStore = idxPlayerAStore;

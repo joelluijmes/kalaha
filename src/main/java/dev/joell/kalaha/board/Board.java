@@ -3,7 +3,10 @@ package dev.joell.kalaha.board;
 import dev.joell.kalaha.common.mapstruct.Default;
 
 public class Board {
-    /** Array containing the board state. Tracks the amount of stones per location (including stores). */
+    /**
+     * Array containing the board state. Tracks the amount of stones per location
+     * (including stores).
+     */
     private final int[] board;
 
     /** Index of the player A store in the board. */
@@ -25,9 +28,10 @@ public class Board {
         this.cupsPerPlayer = cupsPerPlayer;
         this.stonesPerCup = stonesPerCup;
 
-        // The player stores index at the start of their respective board array. 
+        // The player stores index at the start of their respective board array.
         // Player A starts at 0, and its cups are 1 -> cupsPerPlayer.
-        // Player B starts at cupsPerPlayer + 1, and its cups are cupsPerPlayer + 2 -> cupsPerPlayer * 2 + 1.
+        // Player B starts at cupsPerPlayer + 1, and its cups are cupsPerPlayer + 2 ->
+        // cupsPerPlayer * 2 + 1.
         this.idxPlayerAStore = 0;
         this.idxPlayerBStore = this.cupsPerPlayer + 1;
 
@@ -44,7 +48,8 @@ public class Board {
     }
 
     @Default
-    public Board(int[] board, int idxPlayerAStore, int idxPlayerBStore, int cupsPerPlayer, int stonesPerCup, int idxCurrentPlayer) {
+    public Board(int[] board, int idxPlayerAStore, int idxPlayerBStore, int cupsPerPlayer, int stonesPerCup,
+            int idxCurrentPlayer) {
         this.board = board;
         this.idxPlayerAStore = idxPlayerAStore;
         this.idxPlayerBStore = idxPlayerBStore;
@@ -54,16 +59,20 @@ public class Board {
     }
 
     public void makeMove(int cup) {
-        // TODO: make custom exceptions such they can be caught and handled by the controller
+        // TODO: make custom exceptions such they can be caught and handled by the
+        // controller
         if (cup < 1 || cup > this.cupsPerPlayer) {
-            throw new IllegalArgumentException("Invalid cup index, must be between 1 and " + this.cupsPerPlayer + " inclusive.");
+            throw new IllegalArgumentException(
+                    "Invalid cup index, must be between 1 and " + this.cupsPerPlayer + " inclusive.");
         }
 
-        // Calculate the index of the cup in the board array. As we store player B's cups in reverse order, when B
-        // picks a cup, we actually need to subtract the cup index from the total amount of cups per player.
-        int idx = this.idxCurrentPlayer == this.idxPlayerAStore 
-            ? cup 
-            : this.board.length - cup;
+        // Calculate the index of the cup in the board array. As we store player B's
+        // cups in reverse order, when B
+        // picks a cup, we actually need to subtract the cup index from the total amount
+        // of cups per player.
+        int idx = this.idxCurrentPlayer == this.idxPlayerAStore
+                ? cup
+                : this.board.length - cup;
 
         int numStones = this.board[idx];
         if (numStones == 0) {
@@ -71,7 +80,8 @@ public class Board {
         }
 
         // "pick up" the stones from the cup
-        System.out.println(String.format("Player %s picking %s stones at cup %s (index %s)", this.idxCurrentPlayer == this.idxPlayerAStore ? "A" : "B", numStones, cup, idx));
+        System.out.println(String.format("Player %s picking %s stones at cup %s (index %s)",
+                this.idxCurrentPlayer == this.idxPlayerAStore ? "A" : "B", numStones, cup, idx));
         this.board[idx] = 0;
         while (numStones > 0) {
             // Rules state counter clockwise direction, so we decrement the index
@@ -94,8 +104,8 @@ public class Board {
             numStones--;
         }
 
-        if ((idx == this.idxPlayerAStore && this.idxCurrentPlayer == this.idxPlayerAStore) || 
-            (idx == this.idxPlayerBStore && this.idxCurrentPlayer == this.idxPlayerBStore)) {
+        if ((idx == this.idxPlayerAStore && this.idxCurrentPlayer == this.idxPlayerAStore) ||
+                (idx == this.idxPlayerBStore && this.idxCurrentPlayer == this.idxPlayerBStore)) {
             // Player turn ends in their store, so they get to go again
             System.out.println("Player gets to go again!");
             return;
@@ -103,7 +113,8 @@ public class Board {
 
         if (this.board[idx] == 1 && idx != this.idxPlayerAStore && idx != this.idxPlayerBStore) {
             System.out.println("Player steals stones!");
-            // Player turn ends in an empty cup on their side, so they get to take the stones from the opposite cup
+            // Player turn ends in an empty cup on their side, so they get to take the
+            // stones from the opposite cup
             int oppositeIdx = this.board.length - idx;
             int oppositeStones = this.board[oppositeIdx];
             System.out.println(String.format("Opposite index is %s, stones %s", oppositeIdx, oppositeStones));
@@ -116,7 +127,8 @@ public class Board {
 
         // Switch players
         System.out.println("Switching players!");
-        this.idxCurrentPlayer = this.idxCurrentPlayer == this.idxPlayerAStore ? this.idxPlayerBStore : this.idxPlayerAStore;
+        this.idxCurrentPlayer = this.idxCurrentPlayer == this.idxPlayerAStore ? this.idxPlayerBStore
+                : this.idxPlayerAStore;
     }
 
     /**
@@ -133,20 +145,20 @@ public class Board {
             sb.append(String.format("   %s  ", i));
         }
         sb.append("   B  \n");
-        
+
         // Draw separator line
         for (int i = 0; i <= len; i++) {
             sb.append("+-----");
         }
         sb.append("+\n");
-        
+
         // Draw the cup row for player A
         sb.append("|      ");
         for (int i = 1; i < len; i++) {
             sb.append(String.format(" %2d  |", this.board[i]));
         }
         sb.append("     |\n");
-        
+
         // Draw the store value for player A
         sb.append(String.format("| %2d  ", this.board[this.idxPlayerAStore]));
 
@@ -154,7 +166,7 @@ public class Board {
         for (int i = 0; i < len - 1; i++) {
             sb.append("+-----");
         }
-        
+
         // Draw the store value for player B
         sb.append(String.format("+ %2d  ", this.board[this.idxPlayerBStore]));
         sb.append("+\n");
@@ -165,7 +177,7 @@ public class Board {
             sb.append(String.format("| %2d  ", this.board[i]));
         }
         sb.append("      |\n");
-        
+
         // Draw the separator line
         for (int i = 0; i < len + 1; i++) {
             sb.append("+-----");
@@ -189,20 +201,20 @@ public class Board {
             sb.append(String.format("   %s  ", i));
         }
         sb.append("   B  \n");
-        
+
         // Draw separator line
         for (int i = 0; i <= len; i++) {
             sb.append("+-----");
         }
         sb.append("+\n");
-        
+
         // Draw the cup row for player A
         sb.append("|      ");
         for (int i = 1; i < len; i++) {
             sb.append(String.format(" %2d  |", i));
         }
         sb.append("     |\n");
-        
+
         // Draw the store value for player A
         sb.append(String.format("| %2d  ", this.idxPlayerAStore));
 
@@ -210,7 +222,7 @@ public class Board {
         for (int i = 0; i < len - 1; i++) {
             sb.append("+-----");
         }
-        
+
         // Draw the store value for player B
         sb.append(String.format("+ %2d  ", this.idxPlayerBStore));
         sb.append("+\n");
@@ -221,7 +233,7 @@ public class Board {
             sb.append(String.format("| %2d  ", i));
         }
         sb.append("      |\n");
-        
+
         // Draw the separator line
         for (int i = 0; i < len + 1; i++) {
             sb.append("+-----");
@@ -254,6 +266,5 @@ public class Board {
     public int getIdxCurrentPlayer() {
         return idxCurrentPlayer;
     }
-
 
 }

@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import dev.joell.kalaha.common.exceptions.ApiException;
 import dev.joell.kalaha.player.dtos.*;
 
-
 @Service
 public class PlayerService {
     private final PlayerRepository repository;
@@ -26,7 +25,8 @@ public class PlayerService {
             throw new ApiException("Player with name " + player.name() + " already exists");
         }
 
-        // TODO: how to force read query such that createdAt field is populated? Current behavior is that it is null.
+        // TODO: how to force read query such that createdAt field is populated? Current
+        // behavior is that it is null.
         PlayerEntity entity = this.repository.save(mapper.createDtoToEntity(player));
         return this.findById(entity.getId());
     }
@@ -38,8 +38,8 @@ public class PlayerService {
 
     public List<PlayerDto> findAll() {
         return this.repository.findAll()
-            .stream()
-            .map(entity -> mapper.entityToDto(entity))
-            .toList();
+                .stream()
+                .map(entity -> mapper.entityToDto(entity))
+                .toList();
     }
 }

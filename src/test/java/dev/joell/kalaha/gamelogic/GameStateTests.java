@@ -1,7 +1,9 @@
 package dev.joell.kalaha.gamelogic;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
@@ -95,5 +97,53 @@ public class GameStateTests {
                 "+-----+-----+-----+-----+-----+-----+-----+-----+\n";
 
         assertEquals(expected, game.toString());
+    }
+
+    @Test
+    public void isGameOverWhenPlayerAHasNoStones() {
+        Cell[] board = new Cell[1];
+        PlayerState playerA = new PlayerState(new Cell[] {
+                new Cell(0, false),
+        }, new Cell(0, true), "Player A");
+
+        PlayerState playerB = new PlayerState(new Cell[] {
+                new Cell(1, false),
+        }, new Cell(0, true), "Player A");
+
+        GameState game = new GameState(board, playerA, playerB, playerA);
+
+        assertTrue(game.isGameOver());
+    }
+
+    @Test
+    public void isGameOverWhenPlayerBHasNoStones() {
+        Cell[] board = new Cell[1];
+        PlayerState playerA = new PlayerState(new Cell[] {
+                new Cell(1, false),
+        }, new Cell(0, true), "Player A");
+
+        PlayerState playerB = new PlayerState(new Cell[] {
+                new Cell(0, false),
+        }, new Cell(0, true), "Player A");
+
+        GameState game = new GameState(board, playerA, playerB, playerA);
+
+        assertTrue(game.isGameOver());
+    }
+
+    @Test
+    public void isNotGameOverWhenPlayersHasNoStones() {
+        Cell[] board = new Cell[1];
+        PlayerState playerA = new PlayerState(new Cell[] {
+                new Cell(1, false),
+        }, new Cell(0, true), "Player A");
+
+        PlayerState playerB = new PlayerState(new Cell[] {
+                new Cell(1, false),
+        }, new Cell(0, true), "Player A");
+
+        GameState game = new GameState(board, playerA, playerB, playerA);
+
+        assertFalse(game.isGameOver());
     }
 }

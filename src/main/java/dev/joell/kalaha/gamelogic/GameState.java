@@ -25,6 +25,14 @@ public record GameState(
     }
 
     /**
+     * Check if the game is over. The game is over when either player has no stones
+     * in any of their cups.
+     */
+    public boolean isGameOver() {
+        return !playerA.hasStonesInAnyCup() || !playerB.hasStonesInAnyCup();
+    }
+
+    /**
      * Format the board as a pretty human readable string.
      */
     public String toString() {

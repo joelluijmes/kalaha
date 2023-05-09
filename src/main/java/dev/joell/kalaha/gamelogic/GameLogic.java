@@ -4,6 +4,10 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Implements the game logic for Kalaha. This class is stateless and can be used
+ * to initialize a game and perform moves.
+ */
 public class GameLogic {
 
     /**
@@ -54,13 +58,16 @@ public class GameLogic {
         return new GameState(board, playerA, playerB, currentPlayer);
     }
 
+    /**
+     * Perform a move for the current player. The cup index is 1-indexed from the
+     * current player's perspective.
+     */
     public GameState move(GameState state, int cup) {
         // TODO: does GameState as immutable make sense? Tracking current player is bit
         // awkward.
-
-        if (cup < 1 || cup > state.currentPlayer().cups().length) {
-            throw new IllegalArgumentException(
-                    "Cup index must be between 1 and " + state.currentPlayer().cups().length);
+        int numCups = state.currentPlayer().cups().length;
+        if (cup < 1 || cup > numCups) {
+            throw new IllegalArgumentException("Cup index must be between 1 and " + numCups);
         }
 
         if (state.isGameOver()) {

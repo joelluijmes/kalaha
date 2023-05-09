@@ -8,6 +8,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+/**
+ * Entity for the game. Contains the board state and the game settings.
+ * Updated by the `GameService`.
+ */
 @Entity
 @Table(name = "games")
 public class GameEntity {
@@ -41,8 +45,13 @@ public class GameEntity {
 
     }
 
-    public GameEntity(int id, int[] board, int idxPlayerAStore, int idxPlayerBStore, int cupsPerPlayer,
-            int stonesPerCup, int idxCurrentPlayer) {
+    public GameEntity(int id,
+            int[] board,
+            int idxPlayerAStore,
+            int idxPlayerBStore,
+            int cupsPerPlayer,
+            int stonesPerCup,
+            int idxCurrentPlayer) {
         this.id = id;
         this.board = board;
         this.idxPlayerAStore = idxPlayerAStore;

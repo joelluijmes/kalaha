@@ -18,6 +18,10 @@ import dev.joell.kalaha.common.exceptions.NotFoundApiException;
 @ControllerAdvice
 public class GlobalControllerAdvice {
 
+    /**
+     * Triggers on validation errors (@Validated annotation in the DTOs) -> 400 Bad
+     * Request.
+     */
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {
@@ -30,12 +34,18 @@ public class GlobalControllerAdvice {
         return errors;
     }
 
+    /**
+     * Triggers on NotFoundApiException -> 404 Not Found.
+     */
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(NotFoundApiException.class)
     public Map<String, String> handleValidationExceptions(NotFoundApiException ex) {
         return Map.of("error", ex.getMessage());
     }
 
+    /**
+     * Triggers on ApiException -> 400 Bad Request.
+     */
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(ApiException.class)
     public Map<String, String> handleValidationExceptions(ApiException ex) {

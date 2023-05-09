@@ -2,6 +2,12 @@ package dev.joell.kalaha.board;
 
 import dev.joell.kalaha.common.mapstruct.Default;
 
+/**
+ * This is a functional approach implementation for the Kalaha board. See
+ * `src/main/java/dev/joell/kalaha/gamelogic` for an object oriented approach.
+ * 
+ * This version is used in the API.
+ */
 public class Board {
     /**
      * Array containing the board state. Tracks the amount of stones per location

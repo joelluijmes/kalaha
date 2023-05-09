@@ -1,4 +1,4 @@
-package dev.joell.kalaha.player.dtos;
+package dev.joell.kalaha.player.dto;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

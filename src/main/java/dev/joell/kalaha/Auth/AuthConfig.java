@@ -1,4 +1,4 @@
-package dev.joell.kalaha.Auth;
+package dev.joell.kalaha.auth;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,7 +12,8 @@ public class AuthConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        // Disable all checks (for now)
+        // TODO: Disable all checks (for now), to be expanded later
+        // to validate the JWT token.
         http.authorizeHttpRequests()
                 .requestMatchers("/**")
                 .permitAll();

@@ -61,6 +61,7 @@ public class GameController {
     @PostMapping("/{id}/move/{cup}")
     @Operation(summary = "Perform a move", description = "Performs a move for the given game id and cup", responses = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "The updated game"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "Invalid move"),
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "Game with the given id not found")
     })
     public GameDto performMove(@PathVariable int id, @PathVariable int cup) throws ApiException {

@@ -1,4 +1,4 @@
-package dev.joell.kalaha.player.dtos;
+package dev.joell.kalaha.player.dto;
 
 import java.time.LocalDateTime;
 

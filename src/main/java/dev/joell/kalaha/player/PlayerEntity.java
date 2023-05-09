@@ -9,6 +9,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 
+/**
+ * Entity for the player. Contains the username and the password hash.
+ */
 @Entity
 @Table(name = "players")
 public class PlayerEntity {
